@@ -28,8 +28,24 @@ pub fn print_grid(grid: &Grid) {
 
 // Live neighbors of (row, col): the eight surrounding cells, excluding the cell itself.
 // Cells beyond the edge count as dead. Careful: row - 1 on a usize of 0 panics.
-pub fn count_neighbors(_grid: &Grid, _row: usize, _col: usize) -> u8 {
-    todo!("Implement count_neighbors")
+pub fn count_neighbors(grid: &Grid, row: usize, col: usize) -> u8 {
+     let mut count: u8 = 0;
+    for dr in -1i32..=1 {
+        for dc in -1i32..=1 {
+            if dr == 0 && dc == 0 {
+                continue; // the cell itself is not its own neighbor
+            }
+            let r = row as i32 + dr;
+            let c = col as i32 + dc;
+            if r < 0 || c < 0 || r >= ROWS as i32 || c >= COLS as i32 {
+                continue; // off the grid counts as dead
+            }
+            if grid[r as usize][c as usize] {
+                count += 1;
+            }
+        }
+    }
+    count
 }
 
 // The rule for one cell: does it live in the next generation?
@@ -99,6 +115,7 @@ mod tests {
     fn dead_0_stays_dead() {
         assert!(!next_state(false, 0));
     }
+
     // TODO (student): write the remaining cases from your truth table before you
     // write next_state. At minimum: a live cell with 4 neighbors, a dead cell with 2.
 }
