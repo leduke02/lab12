@@ -57,8 +57,15 @@ pub fn next_state(alive: bool, neighbors: u8) -> bool {
     }
 }
 // Debug view: each cell's neighbor count as a digit, one line per row.
-pub fn print_neighbor_counts(_grid: &Grid) {
-    todo!("Implement print_neighbor_counts")
+pub fn print_neighbor_counts(grid: &Grid) {
+     for row in 0..ROWS {
+        let mut line = String::new();
+        for col in 0..COLS {
+            let n = count_neighbors(grid, row, col);
+            line.push_str(&n.to_string());
+        }
+        println!("{}", line);
+    }
 }
 
 // Set a few cells alive (hardcoded, or entered as `row col` pairs until a blank line),
